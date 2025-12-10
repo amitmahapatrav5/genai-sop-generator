@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Clone (Static Display)</title>
+    <style>
+        /* General Reset and Font Setup */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #202124;
+            background-color: #fff;
+        }
+
+        /* Header (Top Navigation) Styling */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .header a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #000;
+            opacity: 0.8;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        .header-icon {
+            /* Mimics the app grid icon (waffle icon) */
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 15px;
+            border-radius: 50%;
+            transition: background-color 0.1s;
+        }
+
+        .header-icon:hover {
+            background-color: #f0f0f0;
+        }
+
+        .header-icon-dots {
+            width: 5px;
+            height: 5px;
+            background-color: #5f6368;
+            border-radius: 50%;
+            margin: 1px;
+        }
+
+        .header-profile {
+            width: 30px;
+            height: 30px;
+            background-color: #a0c3ff;
+            /* Example profile color */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Main Content Area Styling */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
+            /* Adjust as needed */
+        }
+
+        .logo-container {
+            margin-bottom: 25px;
+        }
+
+        .logo-img {
+            width: 272px;
+            /* Standard Google logo size */
+            height: 92px;
+            object-fit: contain;
+            /* Using the title for the Google Logo observation */
+        }
+
+        /* Search Input and Icons Styling */
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 90%;
+            max-width: 584px;
+            height: 44px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            box-shadow: 0 2px 5px 1px rgba(64, 60, 67, .16);
+            transition: box-shadow 0.3s;
+        }
+
+        .search-container:hover {
+            box-shadow: 0 4px 6px 0 rgba(64, 60, 67, .16);
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 0 15px 0 20px;
+        }
+
+        .search-input input {
+            width: 100%;
+            height: 40px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            padding-right: 15px;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
+            cursor: pointer;
+            color: #9aa0a6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Button Styling */
+        .buttons-container {
+            margin-top: 30px;
+        }
+
+        .button {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
+            font-family: inherit;
+            font-size: 14px;
+            margin: 11px 4px;
+            padding: 0 16px;
+            line-height: 27px;
+            height: 36px;
+            min-width: 54px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .button:hover {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+            background-color: #f2f2f2;
+            border: 1px solid #dadce0;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #f2f2f2;
+            border-top: 1px solid #dadce0;
+            padding: 15px 20px;
+            font-size: 13px;
+            color: #70757a;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: auto;
+            /* Pushes the footer to the bottom */
+        }
+
+        .footer-country {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dadce0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+        }
+
+        .footer-group a {
+            margin-right: 25px;
+            text-decoration: none;
+            color: #70757a;
+        }
+
+        .footer-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* Icon Helper Styles (for visual representation only) */
+        .icon-mic::before {
+            content: "🎤";
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        .icon-lens::before {
+            content: "📷";
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        .icon-search-glass::before {
+            content: "🔎";
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        /* The grid/waffle icon is made using CSS divs */
+        .grid-icon {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .grid-icon-dot {
+            width: 3px;
+            height: 3px;
+            background-color: #5f6368;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <a href="#" title="Link to the Gmail mail service.">Gmail</a>
+        <a href="#" title="Link to the Google Image Search service.">Images</a>
+
+        <div class="header-icon"
+            title="Grid/waffle icon: Displays a list of all available Google applications when clicked.">
+            <div class="grid-icon">
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+                <div class="grid-icon-dot"></div>
+            </div>
+        </div>
+
+        <div class="header-profile"
+            title="Icon or picture: Allows the user to view or sign in to their Google account/profile.">
+            S
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="logo-container">
+            <img class="logo-img"
+                src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+                alt="Google Logo"
+                title="The Google logo (often a 'Doodle') displayed prominently above the search bar.">
+        </div>
+
+        <div class="search-container">
+            <div class="search-icon search-icon-glass"
+                title="Search icon: A magnifying glass indicating the search function.">
+                <span class="icon-search-glass"></span>
+            </div>
+            <div class="search-input" title="A large, central search input box for typing queries.">
+                <input type="text" value="" placeholder="">
+            </div>
+            <div class="search-icon-box">
+                <div class="search-icon" title="Microphone icon: Allows the user to search using voice (Voice Search).">
+                    <span class="icon-mic"></span>
+                </div>
+                <div class="search-icon" title="Camera-like icon (Google Lens): Allows the user to search by image.">
+                    <span class="icon-lens"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <button class="button" title="Button labeled 'Google Search': Will execute the text search query.">Google
+                Search</button>
+            <button class="button"
+                title="Button labeled 'I'm Feeling Lucky': Will take the user directly to the first search result.">I'm
+                Feeling Lucky</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-country" title="Text at the very bottom indicating the current region or country.">
+            India
+        </div>
+
+        <div class="footer-links">
+            <div class="footer-group left-group">
+                <a href="#" title="Link providing access to company information.">About</a>
+                <a href="#" title="Link for advertising opportunities.">Advertising</a>
+                <a href="#" title="Link for Google's business services.">Business</a>
+                <a href="#" title="Link describing how Search works.">How Search works</a>
+            </div>
+            <div class="footer-group right-group">
+                <a href="#" title="Link to the Privacy policy.">Privacy</a>
+                <a href="#" title="Link to the Terms of Service.">Terms</a>
+                <a href="#" title="Link for Google's settings.">Settings</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

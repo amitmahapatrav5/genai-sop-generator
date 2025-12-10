@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Sign-In Clone (Static Display)</title>
+    <style>
+        /* Base Styling and Background */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(to top, rgba(0, 0, 0, .8) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .8) 100%),
+                url('https://assets.nflxext.com/ffe/siteui/vlv3/5e1975e6-c11c-4330-8025-a7732d84784a/d67e813f-c57d-47c3-8a3d-4c3116362507/IN-en-20240318-popsignuptwoweeks-perspective_alpha_website_large.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            /* White text for contrast */
+        }
+
+        /* Header (Logo) */
+        .header {
+            padding: 20px 50px;
+        }
+
+        .netflix-logo {
+            color: #e50914;
+            /* Netflix Red */
+            font-size: 2em;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Main Form Container */
+        .login-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 450px;
+            padding: 60px 68px 40px;
+            margin: auto;
+        }
+
+        /* Form Elements */
+        .login-box h1 {
+            font-size: 2em;
+            margin-bottom: 28px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            padding: 16px 20px 0;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        /* Sign In Button */
+        .sign-in-button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 24px;
+            background-color: #e50914;
+            /* Netflix Red */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .sign-in-button:hover {
+            background-color: #f40612;
+        }
+
+        /* Remember Me and Help Link */
+        .support-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .remember-me label {
+            cursor: pointer;
+        }
+
+        .support-flex a {
+            color: #b3b3b3;
+            text-decoration: none;
+        }
+
+        .support-flex a:hover {
+            text-decoration: underline;
+        }
+
+        /* Social and Sign Up Link */
+        .login-footer {
+            margin-top: 60px;
+            color: #737373;
+            font-size: 16px;
+        }
+
+        .login-footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .captcha {
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 30px 45px;
+            margin-top: auto;
+            /* Pushes footer to the bottom */
+        }
+
+        .footer p {
+            color: #737373;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            width: 25%;
+            margin-bottom: 16px;
+        }
+
+        .footer-links li a {
+            text-decoration: none;
+            color: #737373;
+            font-size: 13px;
+        }
+
+        .footer-links li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <a href="#" class="netflix-logo"
+            title="The distinctive Netflix logo, typically red, located in the top-left corner.">NETFLIX</a>
+    </div>
+
+    <div class="login-box">
+        <h1 title="The main heading 'Sign In' to indicate the purpose of the page.">Sign In</h1>
+
+        <div class="input-group">
+            <input type="email" placeholder="Email or phone number" required
+                title="Input field for the user to enter their email address or phone number.">
+        </div>
+
+        <div class="input-group">
+            <input type="password" placeholder="Password" required
+                title="Input field for the user to enter their password.">
+        </div>
+
+        <button class="sign-in-button" title="A large, prominent red button labeled 'Sign In' to submit the form.">
+            Sign In
+        </button>
+
+        <div class="support-flex">
+            <div class="remember-me" title="A checkbox and label to save login credentials on the device.">
+                <input type="checkbox" id="remember" style="margin-right: 5px;">
+                <label for="remember" style="color: #b3b3b3;">Remember me</label>
+            </div>
+            <a href="#" title="A link labeled 'Need Help?' for password recovery or other assistance.">Need Help?</a>
+        </div>
+
+        <div class="login-footer">
+            <p title="Text prompting the user to sign up if they don't have an account.">
+                New to Netflix?
+                <a href="#" title="A link to the sign-up page.">Sign up now.</a>
+            </p>
+            <p class="captcha" title="Small disclaimer text about Google reCAPTCHA being used for security.">
+                This page is protected by Google reCAPTCHA to ensure you're not a bot.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p title="A phone number link for common customer service inquiries.">Questions? Call 000-800-919-1694</p>
+        <ul class="footer-links">
+            <li><a href="#" title="Link to the FAQ section.">FAQ</a></li>
+            <li><a href="#" title="Link to the Help Center.">Help Centre</a></li>
+            <li><a href="#" title="Link to the Terms of Use.">Terms of Use</a></li>
+            <li><a href="#" title="Link to the Privacy Statement.">Privacy</a></li>
+            <li><a href="#" title="Link to Cookie Preferences.">Cookie Preferences</a></li>
+            <li><a href="#" title="Link to Corporate Information.">Corporate Information</a></li>
+        </ul>
+    </div>
+
+</body>
+
+</html>
