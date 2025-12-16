@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Feature Extraction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#D51900',
+                            hover: '#B91600',
+                        },
+                        gray: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            800: '#1F2937',
+                            900: '#111827',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Simple fade in animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="border-b border-gray-200 bg-white sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-brand rounded-sm"></div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Feature Extraction</span>
+                </div>
+                <div class="flex items-center">
+                    <button id="settingsBtn" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                        title="Settings">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="hidden bg-gray-50 border-b border-gray-200 p-4">
+        <div class="max-w-7xl mx-auto">
+            <label class="block text-sm font-medium text-gray-700 mb-1">API Endpoint</label>
+            <div class="flex gap-2 max-w-md">
+                <input type="text" id="apiUrl" value="http://localhost:8000/"
+                    class="flex-1 shadow-sm focus:ring-brand focus:border-brand block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
+                    placeholder="http://localhost:8000/">
+            </div>
+            <p class="mt-1 text-xs text-gray-500">The backend URL that accepts the HTML file upload.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- Upload View -->
+        <div id="uploadView" class="max-w-2xl mx-auto text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-4">Analyze your HTML</h1>
+            <p class="text-xl text-gray-500 mb-10">Upload your page to extract actionable insights and process flows
+                automatically.</p>
+
+            <div
+                class="bg-white rounded-lg border-2 border-dashed border-gray-300 hover:border-brand transition-colors p-12 flex flex-col items-center justify-center">
+
+                <!-- Initial State -->
+                <div id="fileSelectState">
+                    <div class="bg-red-50 p-4 rounded-full mb-4 inline-block">
+                        <svg class="w-10 h-10 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                    </div>
+                    <label class="cursor-pointer block">
+                        <span class="mt-2 block text-sm font-medium text-gray-900">Upload a file</span>
+                        <span class="mt-1 block text-xs text-gray-500">HTML files up to 10MB</span>
+                        <input type="file" id="fileInput" accept=".html,.htm" class="hidden">
+                        <div
+                            class="mt-6 px-6 py-3 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-block">
+                            Select File
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Selected State -->
+                <div id="fileSelectedState" class="hidden w-full">
+                    <div
+                        class="flex items-center justify-center gap-3 mb-8 bg-gray-50 p-4 rounded-md border border-gray-200">
+                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span id="fileNameDisplay" class="text-gray-900 font-medium truncate max-w-xs"></span>
+                        <button id="changeFileBtn" class="text-gray-400 hover:text-brand text-sm ml-4">Change</button>
+                    </div>
+
+                    <div id="errorMessage"
+                        class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm text-left">
+                    </div>
+
+                    <button id="analyzeBtn"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand transition-all">
+                        Analyze HTML
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="hidden">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-brand mx-auto mb-4"></div>
+                    <p class="text-gray-900 font-medium">Processing...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="resultsView" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Analysis Results</h2>
+                    <p class="text-gray-500 text-sm mt-1">Extracted from <span id="resultFileName"></span></p>
+                </div>
+                <button id="resetBtn"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                    Upload Another
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Actions Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <h3 class="text-lg font-bold text-gray-900 border-b pb-2">Identified Actions</h3>
+                    <div id="actionsList" class="space-y-4">
+                        <!-- Action items will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Info Column -->
+                <div class="space-y-6">
+                    <h3 class="text-lg font-bold text-gray-900 border-b pb-2">Page Information</h3>
+                    <div id="infoContainer" class="bg-gray-50 rounded-lg border border-gray-200 p-1">
+                        <!-- Info items will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-400">&copy; <span id="year"></span> Developed by TCS</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const apiUrlInput = document.getElementById('apiUrl');
+        const fileInput = document.getElementById('fileInput');
+
+        const uploadView = document.getElementById('uploadView');
+        const resultsView = document.getElementById('resultsView');
+
+        const fileSelectState = document.getElementById('fileSelectState');
+        const fileSelectedState = document.getElementById('fileSelectedState');
+        const loadingState = document.getElementById('loadingState');
+
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const changeFileBtn = document.getElementById('changeFileBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const resetBtn = document.getElementById('resetBtn');
+
+        const resultFileName = document.getElementById('resultFileName');
+        const actionsList = document.getElementById('actionsList');
+        const infoContainer = document.getElementById('infoContainer');
+
+        let selectedFile = null;
+
+        // Set Copyright Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Settings Toggle
+        settingsBtn.addEventListener('click', () => {
+            settingsPanel.classList.toggle('hidden');
+        });
+
+        // File Selection
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            selectedFile = file;
+            fileNameDisplay.textContent = file.name;
+            errorMessage.classList.add('hidden');
+
+            fileSelectState.classList.add('hidden');
+            fileSelectedState.classList.remove('hidden');
+            loadingState.classList.add('hidden');
+        }
+
+        // Change File
+        changeFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = ''; // Reset input
+            fileSelectState.classList.remove('hidden');
+            fileSelectedState.classList.add('hidden');
+        });
+
+        // Analyze Button
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            // Show loading
+            fileSelectedState.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            const apiUrl = apiUrlInput.value.trim() || 'http://localhost:8000/';
+
+            try {
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Failed to process file. Server returned ${res.status}`);
+                }
+
+                const data = await res.json();
+                renderResults(data);
+            } catch (err) {
+                // Show Error
+                console.error(err);
+                loadingState.classList.add('hidden');
+                fileSelectedState.classList.remove('hidden');
+                errorMessage.textContent = err.message || 'An unexpected error occurred.';
+                errorMessage.classList.remove('hidden');
+            }
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = '';
+            resultsView.classList.add('hidden');
+            uploadView.classList.remove('hidden');
+
+            fileSelectState.classList.remove('hidden');
+            fileSelectedState.classList.add('hidden');
+            loadingState.classList.add('hidden');
+        });
+
+        // Render Functions
+        function renderResults(data) {
+            uploadView.classList.add('hidden');
+            resultsView.classList.remove('hidden');
+            resultFileName.textContent = selectedFile ? selectedFile.name : 'File';
+
+            // Clear previous results
+            actionsList.innerHTML = '';
+            infoContainer.innerHTML = '';
+
+            // Render Actions
+            if (data.actions && data.actions.length > 0) {
+                data.actions.forEach((action, idx) => {
+                    const actionHtml = `
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center text-brand font-bold text-sm">
+                                        ${idx + 1}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-2">${escapeHtml(action.description)}</h4>
+                                    <div class="text-gray-600 bg-gray-50 p-3 rounded text-sm leading-relaxed border border-gray-100">
+                                        <span class="font-medium text-gray-900 uppercase text-xs tracking-wide block mb-1">Process</span>
+                                        ${escapeHtml(action.process)}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    actionsList.innerHTML += actionHtml;
+                });
+            } else {
+                actionsList.innerHTML = '<div class="text-gray-500 italic p-4 bg-gray-50 rounded">No actions detected.</div>';
+            }
+
+            // Render Info
+            // Note: The interface in index.tsx showed "info_", so we check that key.
+            const infoItems = data.info_ || data.info || [];
+
+            if (infoItems.length > 0) {
+                infoItems.forEach(info => {
+                    const infoHtml = `
+                        <div class="p-4 border-b border-gray-200 last:border-0 flex gap-3">
+                            <svg class="w-5 h-5 text-brand mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <p class="text-sm text-gray-700 leading-relaxed">${escapeHtml(info.description)}</p>
+                        </div>
+                    `;
+                    infoContainer.innerHTML += infoHtml;
+                });
+            } else {
+                infoContainer.innerHTML = '<div class="text-gray-500 italic p-4">No additional info detected.</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+
+</html>
